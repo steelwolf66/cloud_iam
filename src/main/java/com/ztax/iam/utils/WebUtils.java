@@ -2,8 +2,8 @@ package com.ztax.iam.utils;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.ztax.common.result.ResultCode;
 import com.ztax.iam.auth.constants.AuthConstants;
-import com.ztax.iam.entity.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;

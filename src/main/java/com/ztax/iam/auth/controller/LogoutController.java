@@ -2,8 +2,8 @@ package com.ztax.iam.auth.controller;
 
 import cn.hutool.json.JSONObject;
 import com.ztax.common.redis.utils.RedisUtils;
+import com.ztax.common.result.Result;
 import com.ztax.iam.auth.constants.AuthConstants;
-import com.ztax.iam.entity.Result;
 import com.ztax.iam.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,8 @@ public class LogoutController {
 
         //获取token对象
         JSONObject jsonObject = WebUtils.getJwtPayload();
+
+        //todo 判断token是否为空
 
         // JWT唯一标识
         String jti = jsonObject.getStr("jti");

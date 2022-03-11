@@ -2,9 +2,10 @@ package com.ztax.iam.auth.config;
 
 import cn.hutool.json.JSONUtil;
 import com.ztax.common.config.RsaKeyProperties;
+import com.ztax.common.result.Result;
+import com.ztax.common.result.ResultCode;
 import com.ztax.iam.auth.constants.AuthConstants;
-import com.ztax.iam.entity.Result;
-import com.ztax.iam.entity.ResultCode;
+
 import com.ztax.iam.entity.User;
 import com.ztax.iam.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.ztax.iam.auth.service.JdbcClientDetailsServiceImpl;

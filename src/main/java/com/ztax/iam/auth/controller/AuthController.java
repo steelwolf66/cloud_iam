@@ -1,7 +1,7 @@
 package com.ztax.iam.auth.controller;
 
+import com.ztax.common.result.Result;
 import com.ztax.iam.auth.entity.Oauth2Token;
-import com.ztax.iam.entity.Result;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
