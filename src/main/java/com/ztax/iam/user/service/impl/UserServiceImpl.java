@@ -1,5 +1,6 @@
 package com.ztax.iam.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ztax.iam.user.entity.User;
 import com.ztax.iam.user.mapper.UserMapper;
 import com.ztax.iam.user.service.UserService;
@@ -35,6 +36,11 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     public List<User> queryListByBean(User t) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.ge("age",35);//年龄大于35
+        userQueryWrapper.eq("username",t.getUsername());//username为查询条件
+        userQueryWrapper.orderByAsc("userid");
+
         return mapper.selectListByBean(t);
     }
 
