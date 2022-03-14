@@ -101,11 +101,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.mybatis.spring.boot</groupId>-->
+<!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--            <version>2.1.0</version>-->
+<!--        </dependency>-->
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -131,6 +131,12 @@
             <groupId>com.ztax</groupId>
             <artifactId>cloud-common</artifactId>
             <version>0.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ztax.zframe</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 

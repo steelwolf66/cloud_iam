@@ -1,5 +1,6 @@
 package com.ztax.iam.auth.filter;
 
+import com.ztax.iam.auth.handler.SuccessAuthentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
@@ -32,7 +33,6 @@ public class CustomClientCredentialsTokenEndpointFilter extends ClientCredential
     @Override
     public void afterPropertiesSet() {
         setAuthenticationFailureHandler((request, response, e) -> authenticationEntryPoint.commence(request, response, e));
-        setAuthenticationSuccessHandler((request, response, authentication) -> {
-        });
+        setAuthenticationSuccessHandler(new SuccessAuthentication());
     }
 }

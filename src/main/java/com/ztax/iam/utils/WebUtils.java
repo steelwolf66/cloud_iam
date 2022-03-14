@@ -28,8 +28,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return jsonObject;
     }
 
-    public static Long getUserId() {
-        Long id = getJwtPayload().getLong(AuthConstants.JWT_USER_ID_KEY);
+    public static String getUserId() {
+        String id = getJwtPayload().getStr(AuthConstants.JWT_USER_ID_KEY);
         return id;
     }
 

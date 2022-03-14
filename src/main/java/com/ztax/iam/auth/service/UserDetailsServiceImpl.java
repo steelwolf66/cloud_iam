@@ -41,7 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //todo 从数据库中查询用户信息及角色信息 并封装User对象
         SysUser byUsername = new SysUser();
         try {
+            //获取用户
             byUsername = userMapper.findByUsername(username);
+            //获取权限
             List<SysUserRole> assignmentList = roleMapper.findByUid(byUsername.getId());
             if (ObjectUtils.isNotBlank(assignmentList)) {
                 byUsername.setRoleIds(assignmentList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList()));
