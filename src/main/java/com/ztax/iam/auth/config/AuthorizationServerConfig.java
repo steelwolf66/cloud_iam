@@ -12,6 +12,7 @@ import com.ztax.iam.auth.service.JdbcClientDetailsServiceImpl;
 import com.ztax.iam.auth.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +44,7 @@ import java.util.Map;
 @Configuration
 @EnableAuthorizationServer
 @AllArgsConstructor
+@Slf4j
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private DataSource dataSource;
@@ -122,6 +124,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, e) -> {
+            log.error("认证失败");
             response.setStatus(HttpStatus.OK.value());
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setHeader("Access-Control-Allow-Origin", "*");
