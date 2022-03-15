@@ -12,7 +12,7 @@ import javax.annotation.Resource;
     *  服务实现类
     * </p>
  *
- * @since 2022-03-14
+ * @since 2022-03-15
  */
 @Service
 public class CompanyServiceImpl extends BaseService<Company> implements CompanyService {
@@ -24,7 +24,7 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
     }
 
   public  int update(Company t){
-        return mapper.updateByPrimaryKeySelective(t);
+        return mapper.updateByPrimaryKey(t);
     }
 
   public  int delete(Company t){

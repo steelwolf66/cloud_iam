@@ -8,7 +8,7 @@ import java.util.List;
     *  服务类
     * </p>
  *
- * @since 2022-03-14
+ * @since 2022-03-15
  */
 public interface CompanyService extends IBaseService<Company> {
 

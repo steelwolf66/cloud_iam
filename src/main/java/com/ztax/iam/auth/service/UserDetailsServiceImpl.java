@@ -1,12 +1,11 @@
 package com.ztax.iam.auth.service;
 
 import com.ztax.common.utils.ObjectUtils;
-import com.ztax.iam.entity.SysUser;
-import com.ztax.iam.entity.SysUserRole;
-import com.ztax.iam.entity.User;
-import com.ztax.iam.entity.UserDTO;
-import com.ztax.iam.mapper.RoleMapper;
-import com.ztax.iam.mapper.UserMapper;
+import com.ztax.iam.assignment.service.impl.UserModuleRelServiceImpl;
+import com.ztax.iam.user.entity.SecurityUser;
+import com.ztax.iam.user.entity.UserDTO;
+import com.ztax.iam.user.entity.User;
+import com.ztax.iam.user.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -20,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * 实现UserDetailsService
@@ -31,30 +30,38 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
+//    @Autowired
+//    private UserMapper userMapper;
+//    @Autowired
+//    private RoleMapper roleMapper;
+
     @Autowired
-    private UserMapper userMapper;
+    private UserServiceImpl userService;
     @Autowired
-    private RoleMapper roleMapper;
+    private UserModuleRelServiceImpl userModuleRelService;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //todo 从数据库中查询用户信息及角色信息 并封装User对象
-        SysUser byUsername = new SysUser();
-        try {
-            //获取用户
-            byUsername = userMapper.findByUsername(username);
-            //获取权限
-            List<SysUserRole> assignmentList = roleMapper.findByUid(byUsername.getId());
-            if (ObjectUtils.isNotBlank(assignmentList)) {
-                byUsername.setRoleIds(assignmentList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList()));
-            }
-        } catch (Exception e) {
-            logger.error("get userinfo from db exception", e);
+        //从数据库中查询用户信息及角色信息 并封装User对象
+        Optional<User> userOptional = userService.loadUserByUsernameFromDB(username);
+        if (!userOptional.isPresent()) {
+            throw new UsernameNotFoundException("用户不存在");
         }
 
+        //获取权限
+        User userByUsername = userOptional.get();
+        String userId = userByUsername.getUserId();
         UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(byUsername, userDTO);
-        User currentUser = new User(userDTO);
+        BeanUtils.copyProperties(userByUsername, userDTO);
+
+        //设置菜单(即权限)集合
+        List<String> moduleIds = userModuleRelService.loadModuleIdsByUserId(userId);
+        if (ObjectUtils.isNotBlank(moduleIds)) {
+            userDTO.setModuleIds(moduleIds);
+        }
+
+        SecurityUser currentUser = new SecurityUser(userDTO);
 
         if (!currentUser.isEnabled()) {
             throw new DisabledException("该账户已被禁用!");

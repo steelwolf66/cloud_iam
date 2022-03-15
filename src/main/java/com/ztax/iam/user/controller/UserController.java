@@ -36,7 +36,7 @@ public class UserController {
     public Result addOne(@RequestBody User paramUser) {
         //todo 默认密码123456
         passwordEncoder.encode(UserConstant.DEFAULT_USER_PASSWORD);
-        userService.save(paramUser);
+//        userService.save(paramUser);
         //todo 设置用户关联权限
 
         return Result.success();
@@ -51,7 +51,7 @@ public class UserController {
     @DeleteMapping("/one/{userId}")
     @Transactional(rollbackFor = Exception.class)
     public Result deleteOne(@PathVariable("userId") String userId) {
-        userService.deleteByPrimaryKey(userId);
+//        userService.deleteByPrimaryKey(userId);
 
         return Result.success();
     }
@@ -64,7 +64,7 @@ public class UserController {
      */
     @PostMapping
     public Result updateOne(@RequestBody User paramUser) {
-        userService.update(paramUser);
+//        userService.update(paramUser);
         return Result.success();
     }
 
@@ -77,10 +77,10 @@ public class UserController {
     public Result myInfo() {
         String userId = WebUtils.getUserId();
         //todo 从数据库中查询或从缓存中查询
-        User resultUser = userService.queryByPrimaryKey(userId);
+//        User resultUser = userService.queryByPrimaryKey(userId);
         //todo 查询权限信息
 
-        return Result.success(resultUser);
+        return Result.success();
     }
 
     /**
@@ -92,7 +92,7 @@ public class UserController {
     @PostMapping("/page")
     public Result userList(@RequestBody User paramUser) {
         Page paramPage = new Page(1, 10);
-        PageInfo<User> userPageInfo = userService.queryPageByBean(paramUser, paramPage);
-        return Result.success(userPageInfo);
+//        PageInfo<User> userPageInfo = userService.queryPageByBean(paramUser, paramPage);
+        return Result.success();
     }
 }

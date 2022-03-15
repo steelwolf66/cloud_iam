@@ -1,7 +1,8 @@
 package com.ztax.iam.user.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ztax.iam.user.entity.User;
-import com.ztax.zframe.mybatisplus.BaseMapper;
+
 import java.util.Map;
 import java.util.List;
 /**

@@ -5,4 +5,4 @@ spring:
       config:
         file-extension: yml
   application:
-    name: ztax-iam
+    name: ztax-iam-develop

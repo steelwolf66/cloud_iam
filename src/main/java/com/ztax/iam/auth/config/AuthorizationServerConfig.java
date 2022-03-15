@@ -6,7 +6,7 @@ import com.ztax.common.result.Result;
 import com.ztax.common.result.ResultCode;
 import com.ztax.iam.auth.constants.AuthConstants;
 
-import com.ztax.iam.entity.User;
+import com.ztax.iam.user.entity.SecurityUser;
 import com.ztax.iam.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.ztax.iam.auth.service.JdbcClientDetailsServiceImpl;
 import com.ztax.iam.auth.service.UserDetailsServiceImpl;
@@ -166,7 +166,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return (accessToken, authentication) -> {
             Map<String, Object> map = new HashMap<>(2);
             //获取用户基础信息
-            User user = (User) authentication.getUserAuthentication().getPrincipal();
+            SecurityUser user = (SecurityUser) authentication.getUserAuthentication().getPrincipal();
             map.put(AuthConstants.JWT_USER_ID_KEY, user.getId());
             map.put(AuthConstants.JWT_CLIENT_ID_KEY, user.getClientId());
             //将用户信息（或需要的信息）存入token

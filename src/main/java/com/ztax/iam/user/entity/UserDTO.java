@@ -1,4 +1,4 @@
-package com.ztax.iam.entity;
+package com.ztax.iam.user.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO {
 
-    private Long id;
+    private String userId;
     private String username;
     private String password;
-    private Integer status;
+    private String status;
     private String clientId;
-    private List<Long> roles;
+    private List<String> moduleIds;;
 
 }

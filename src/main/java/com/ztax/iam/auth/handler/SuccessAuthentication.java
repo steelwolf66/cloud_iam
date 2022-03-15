@@ -19,13 +19,6 @@ public class SuccessAuthentication extends SavedRequestAwareAuthenticationSucces
  
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        PrintWriter writer = response.getWriter();
-        Result result = new Result();
-        result.setMsg("认证成功");
-        ObjectMapper mapper = new ObjectMapper();
-        writer.println(mapper.writeValueAsString(result));
-        writer.flush();
-        writer.close();
+
     }
 }

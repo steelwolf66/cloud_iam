@@ -1,4 +1,4 @@
-package com.ztax.iam.entity;
+package com.ztax.iam.user.entity;
 
 import com.ztax.common.utils.ObjectUtils;
 import com.ztax.iam.auth.constants.AuthConstants;
@@ -16,9 +16,9 @@ import java.util.Collection;
  */
 @Data
 @NoArgsConstructor
-public class User implements UserDetails {
+public class SecurityUser implements UserDetails {
 
-    private Long id;
+    private String id;
 
     private String username;
 
@@ -30,15 +30,15 @@ public class User implements UserDetails {
 
     private Collection<SimpleGrantedAuthority> authorities;
 
-    public User(UserDTO user) {
-        this.setId(user.getId());
+    public SecurityUser(UserDTO user) {
+        this.setId(user.getUserId());
         this.setUsername(user.getUsername());
         this.setPassword(AuthConstants.BCRYPT + user.getPassword());
-        this.setEnabled(Integer.valueOf(1).equals(user.getStatus()));
+        this.setEnabled("1".equals(user.getStatus()));
         this.setClientId(user.getClientId());
-        if (ObjectUtils.isNotBlank(user.getRoles())) {
+        if (ObjectUtils.isNotBlank(user.getModuleIds())) {
             authorities = new ArrayList<>();
-            user.getRoles().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
+            user.getModuleIds().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
     }
 

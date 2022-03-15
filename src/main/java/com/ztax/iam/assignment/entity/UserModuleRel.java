@@ -20,8 +20,8 @@ public class UserModuleRel extends Model<UserModuleRel> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("userl_id")
-    private String userlId;
+    @TableField("user_id")
+    private String userId;
 
     @TableField("module_id")
     private String moduleId;
@@ -33,11 +33,11 @@ public class UserModuleRel extends Model<UserModuleRel> {
     private Integer userNum;
 
     public String getUserlId() {
-        return userlId;
+        return userId;
     }
 
     public UserModuleRel setUserlId(String userlId) {
-        this.userlId = userlId;
+        this.userId = userlId;
         return this;
     }
     public String getModuleId() {
@@ -73,7 +73,7 @@ public class UserModuleRel extends Model<UserModuleRel> {
     @Override
     public String toString() {
         return "UserModuleRel{" +
-            "userlId=" + userlId +
+            "userId=" + userId +
             ", moduleId=" + moduleId +
             ", endTime=" + endTime +
             ", userNum=" + userNum +

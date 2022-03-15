@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication(scanBasePackages = {"com.ztax.iam"
 		,"com.ztax.common"})
 @EnableDiscoveryClient
-@MapperScan("com.ztax.iam.mapper")
+@MapperScan("com.ztax.iam")
 @EnableConfigurationProperties(RsaKeyProperties.class)  //将配置类放入Spring容器中
 public class IamApplication {
 
