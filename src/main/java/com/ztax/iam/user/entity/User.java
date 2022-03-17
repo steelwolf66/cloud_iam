@@ -1,24 +1,26 @@
 package com.ztax.iam.user.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
+
+import static com.baomidou.mybatisplus.annotation.FieldFill.INSERT;
+import static com.baomidou.mybatisplus.annotation.FieldFill.UPDATE;
 
 /**
  * <p>
-    * 
-    * </p>
+ *
+ * </p>
  *
  * @since 2022-03-14
  */
 @TableName("user")
-public class User extends Model<User> implements Serializable{
+public class User extends Model<User> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -97,7 +99,7 @@ public class User extends Model<User> implements Serializable{
     /**
      * 创建时间
      */
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = INSERT)
     private LocalDateTime createTime;
 
     /**
@@ -109,7 +111,7 @@ public class User extends Model<User> implements Serializable{
     /**
      * 修改时间
      */
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = UPDATE)
     private LocalDateTime updateTime;
 
     /**
@@ -121,7 +123,7 @@ public class User extends Model<User> implements Serializable{
     /**
      * 删除时间
      */
-    @TableField("del_time")
+    @TableField(value = "del_time", fill = UPDATE)
     private LocalDateTime delTime;
 
     /**
@@ -138,6 +140,7 @@ public class User extends Model<User> implements Serializable{
         this.userId = userId;
         return this;
     }
+
     public String getUserCode() {
         return userCode;
     }
@@ -146,6 +149,7 @@ public class User extends Model<User> implements Serializable{
         this.userCode = userCode;
         return this;
     }
+
     public String getUsername() {
         return username;
     }
@@ -154,6 +158,7 @@ public class User extends Model<User> implements Serializable{
         this.username = username;
         return this;
     }
+
     public String getNickname() {
         return nickname;
     }
@@ -162,6 +167,7 @@ public class User extends Model<User> implements Serializable{
         this.nickname = nickname;
         return this;
     }
+
     public String getPassword() {
         return password;
     }
@@ -170,6 +176,7 @@ public class User extends Model<User> implements Serializable{
         this.password = password;
         return this;
     }
+
     public Boolean getEnabled() {
         return enabled;
     }
@@ -178,6 +185,7 @@ public class User extends Model<User> implements Serializable{
         this.enabled = enabled;
         return this;
     }
+
     public String getStatus() {
         return status;
     }
@@ -186,6 +194,7 @@ public class User extends Model<User> implements Serializable{
         this.status = status;
         return this;
     }
+
     public String getUserMail() {
         return userMail;
     }
@@ -194,6 +203,7 @@ public class User extends Model<User> implements Serializable{
         this.userMail = userMail;
         return this;
     }
+
     public String getUserType() {
         return userType;
     }
@@ -202,6 +212,7 @@ public class User extends Model<User> implements Serializable{
         this.userType = userType;
         return this;
     }
+
     public String getUserCompany() {
         return userCompany;
     }
@@ -210,6 +221,7 @@ public class User extends Model<User> implements Serializable{
         this.userCompany = userCompany;
         return this;
     }
+
     public String getUserCompName() {
         return userCompName;
     }
@@ -218,6 +230,7 @@ public class User extends Model<User> implements Serializable{
         this.userCompName = userCompName;
         return this;
     }
+
     public String getCreateId() {
         return createId;
     }
@@ -226,6 +239,7 @@ public class User extends Model<User> implements Serializable{
         this.createId = createId;
         return this;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -234,6 +248,7 @@ public class User extends Model<User> implements Serializable{
         this.createTime = createTime;
         return this;
     }
+
     public String getUpdateId() {
         return updateId;
     }
@@ -242,6 +257,7 @@ public class User extends Model<User> implements Serializable{
         this.updateId = updateId;
         return this;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -250,6 +266,7 @@ public class User extends Model<User> implements Serializable{
         this.updateTime = updateTime;
         return this;
     }
+
     public String getDelId() {
         return delId;
     }
@@ -258,6 +275,7 @@ public class User extends Model<User> implements Serializable{
         this.delId = delId;
         return this;
     }
+
     public LocalDateTime getDelTime() {
         return delTime;
     }
@@ -266,6 +284,7 @@ public class User extends Model<User> implements Serializable{
         this.delTime = delTime;
         return this;
     }
+
     public String getDelType() {
         return delType;
     }
@@ -283,25 +302,25 @@ public class User extends Model<User> implements Serializable{
     @Override
     public String toString() {
         return "User{" +
-            "userId=" + userId +
-            ", userCode=" + userCode +
-            ", username=" + username +
-            ", nickname=" + nickname +
-            ", password=" + password +
-            ", enabled=" + enabled +
-            ", status=" + status +
-            ", userMail=" + userMail +
-            ", userType=" + userType +
-            ", userCompany=" + userCompany +
-            ", userCompName=" + userCompName +
-            ", createId=" + createId +
-            ", createTime=" + createTime +
-            ", updateId=" + updateId +
-            ", updateTime=" + updateTime +
-            ", delId=" + delId +
-            ", delTime=" + delTime +
-            ", delType=" + delType +
-        "}";
+                "userId=" + userId +
+                ", userCode=" + userCode +
+                ", username=" + username +
+                ", nickname=" + nickname +
+                ", password=" + password +
+                ", enabled=" + enabled +
+                ", status=" + status +
+                ", userMail=" + userMail +
+                ", userType=" + userType +
+                ", userCompany=" + userCompany +
+                ", userCompName=" + userCompName +
+                ", createId=" + createId +
+                ", createTime=" + createTime +
+                ", updateId=" + updateId +
+                ", updateTime=" + updateTime +
+                ", delId=" + delId +
+                ", delTime=" + delTime +
+                ", delType=" + delType +
+                "}";
     }
 
 }

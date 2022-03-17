@@ -5,8 +5,9 @@ import com.ztax.iam.company.mapper.CompanyMapper;
 import com.ztax.iam.company.service.CompanyService;
 import com.ztax.zframe.mybatisplus.BaseService;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
 import javax.annotation.Resource;
+import java.util.List;
 /**
  * <p>
     *  服务实现类

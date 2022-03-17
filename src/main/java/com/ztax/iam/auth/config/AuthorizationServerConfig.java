@@ -5,11 +5,10 @@ import com.ztax.common.config.RsaKeyProperties;
 import com.ztax.common.result.Result;
 import com.ztax.common.result.ResultCode;
 import com.ztax.iam.auth.constants.AuthConstants;
-
-import com.ztax.iam.user.entity.SecurityUser;
 import com.ztax.iam.auth.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.ztax.iam.auth.service.JdbcClientDetailsServiceImpl;
 import com.ztax.iam.auth.service.UserDetailsServiceImpl;
+import com.ztax.iam.user.entity.SecurityUser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

@@ -40,6 +40,10 @@ public class SecurityUser implements UserDetails {
             authorities = new ArrayList<>();
             user.getModuleIds().forEach(roleId -> authorities.add(new SimpleGrantedAuthority(String.valueOf(roleId))));
         }
+        if (ObjectUtils.isBlank(user.getModuleIds())) {
+            authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("USER"));
+        }
     }
 
     @Override

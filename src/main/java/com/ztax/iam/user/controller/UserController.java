@@ -1,20 +1,18 @@
 package com.ztax.iam.user.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.ztax.common.result.Result;
 import com.ztax.iam.user.constant.UserConstant;
 import com.ztax.iam.user.entity.User;
-import com.ztax.iam.user.mapper.UserMapper;
-import com.ztax.iam.user.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;;
-import java.util.List;
-
+import com.ztax.iam.user.service.impl.UserServiceImpl;
 import com.ztax.iam.utils.WebUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+;
 ;
 
 @RestController
@@ -24,7 +22,7 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     /**
      * 新建用户
@@ -64,7 +62,7 @@ public class UserController {
      */
     @PostMapping
     public Result updateOne(@RequestBody User paramUser) {
-//        userService.update(paramUser);
+
         return Result.success();
     }
 
@@ -77,10 +75,13 @@ public class UserController {
     public Result myInfo() {
         String userId = WebUtils.getUserId();
         //todo 从数据库中查询或从缓存中查询
-//        User resultUser = userService.queryByPrimaryKey(userId);
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id",userId);
+        User userByUserId = userService.getOne(queryWrapper);
         //todo 查询权限信息
 
-        return Result.success();
+        return Result.success(userByUserId);
     }
 
     /**

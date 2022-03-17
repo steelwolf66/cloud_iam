@@ -1,10 +1,8 @@
 package com.ztax.iam.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ztax.iam.user.entity.User;
-import com.ztax.zframe.mybatisplus.IBaseService;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,6 +13,6 @@ import java.util.Optional;
  * @since 2022-03-14
  */
 
-public interface UserService  {
+public interface UserService  extends IService<User> {
     Optional<User> loadUserByUsernameFromDB(String username);
 }

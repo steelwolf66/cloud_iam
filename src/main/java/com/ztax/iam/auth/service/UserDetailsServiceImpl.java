@@ -3,14 +3,15 @@ package com.ztax.iam.auth.service;
 import com.ztax.common.utils.ObjectUtils;
 import com.ztax.iam.assignment.service.impl.UserModuleRelServiceImpl;
 import com.ztax.iam.user.entity.SecurityUser;
-import com.ztax.iam.user.entity.UserDTO;
 import com.ztax.iam.user.entity.User;
+import com.ztax.iam.user.entity.UserDTO;
 import com.ztax.iam.user.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserServiceImpl userService;
     @Autowired
     private UserModuleRelServiceImpl userModuleRelService;
-
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -61,6 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             userDTO.setModuleIds(moduleIds);
         }
 
+
         SecurityUser currentUser = new SecurityUser(userDTO);
 
         if (!currentUser.isEnabled()) {
@@ -70,6 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else if (!currentUser.isAccountNonExpired()) {
             throw new AccountExpiredException("该账号已过期!");
         }
+
         return currentUser;
     }
 }

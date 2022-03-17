@@ -1,41 +1,62 @@
 package com.ztax.iam.module.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.iam.module.entity.Module;
 import com.ztax.iam.module.mapper.ModuleMapper;
 import com.ztax.iam.module.service.ModuleService;
-import com.ztax.zframe.mybatisplus.BaseService;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
 import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * <p>
-    *  服务实现类
-    * </p>
+ * 服务实现类
+ * </p>
  *
  * @since 2022-03-14
  */
 @Service
-public class ModuleServiceImpl extends BaseService<Module> implements ModuleService {
+public class ModuleServiceImpl implements ModuleService {
     @Resource
     private ModuleMapper mapper;
 
-  public  void save(Module t){
-        mapper.insertSelective(t);
+    @Override
+    public void addModule(Module paramModule) {
+        mapper.insert(paramModule);
     }
 
-  public  int update(Module t){
-        return mapper.updateByPrimaryKeySelective(t);
+    @Override
+    public int updateModule(Module paramModule) {
+        mapper.updateById(paramModule);
+        return 0;
     }
 
-  public  int delete(Module t){
-         t.setDelType("1");
-         return mapper.updateByPrimaryKey(t);
+    @Override
+    public int deleteModule(Module paramModule) {
+        paramModule.setDelType("1");
+        mapper.updateById(paramModule);
+        return 0;
     }
 
-  public  List<Module> queryListByBean(Module t){
-        return mapper.selectListByBean(t);
+    @Override
+    public Page<Module> pageModule(Module paramModule) {
+        Page paramPage = new Page();
+        paramPage.setCurrent(1L);
+        paramPage.setSize(10L);
+        QueryWrapper<Module> queryWrapper = new QueryWrapper<>();
+
+        Page<Module> page = mapper.selectPage(paramPage, queryWrapper);
+
+        return page;
     }
 
+    @Override
+    public List<Module> listModule(Module paramModule) {
+        QueryWrapper<Module> queryWrapper = new QueryWrapper<>();
 
+        return mapper.selectList(queryWrapper);
+    }
 }
 

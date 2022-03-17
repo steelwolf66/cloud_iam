@@ -1,5 +1,7 @@
 package com.ztax.iam.auth.config;
 
+import com.ztax.iam.auth.filter.JwtAuthenticationFilter;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
@@ -10,14 +12,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @Slf4j
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
-     *配置免密请求等
+     * 配置免密请求等
+     *
      * @param http
      * @throws Exception
      */
@@ -29,8 +35,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //获取公钥接口和登出接口免密
                 .authorizeRequests().antMatchers("/getPublicKey", "/oauth/logout").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 //禁用csrf
                 .csrf().disable();
     }
@@ -45,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 密码加密方式
+     *
      * @return
      */
     @Bean

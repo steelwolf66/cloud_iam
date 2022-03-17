@@ -1,9 +1,7 @@
 package com.ztax.iam.assignment.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ztax.iam.assignment.entity.UserModuleRel;
-import com.ztax.iam.module.entity.Module;
-import com.ztax.zframe.mybatisplus.IBaseService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 /**
@@ -14,6 +12,10 @@ import java.util.List;
  * @since 2022-03-14
  */
 
-public interface UserModuleRelService  {
+public interface UserModuleRelService extends IService<UserModuleRel> {
     List<String> loadModuleIdsByUserId(String userId);
+
+    void grant(List<UserModuleRel> grantList);
+
+    void deleteOldGrant(String userId);
 }

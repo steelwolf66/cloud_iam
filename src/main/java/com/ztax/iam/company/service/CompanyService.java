@@ -2,7 +2,6 @@ package com.ztax.iam.company.service;
 
 import com.ztax.iam.company.entity.Company;
 import com.ztax.zframe.mybatisplus.IBaseService;
-import java.util.List;
 /**
  * <p>
     *  服务类
