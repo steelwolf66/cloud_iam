@@ -61,20 +61,4 @@ public interface AuthConstants {
      */
     String JWT_AUTHORITIES_KEY = "authorities";
 
-
-    /**
-     * 有来商城后台管理客户端ID
-     */
-    String ADMIN_CLIENT_ID="youlai-admin";
-
-
-    /**
-     * 有来商城微信小程序客户端ID
-     */
-    String WEAPP_CLIENT_ID="youlai-mall-weapp";
-
-    /**
-     * 后台管理接口路径匹配
-     */
-    String ADMIN_URL_PATTERN ="*_/youlai-admin/**" ;
 }

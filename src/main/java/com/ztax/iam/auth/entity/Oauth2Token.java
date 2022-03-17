@@ -11,7 +11,7 @@ import lombok.Data;
 public class Oauth2Token {
 
     // 访问令牌
-    private String token;
+    private String accessToken;
 
     // 刷新令牌
     private String refreshToken;

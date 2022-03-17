@@ -38,7 +38,7 @@ public class AuthController {
 
         //封装本地token对象
         Oauth2Token oauth2Token = Oauth2Token.builder()
-                .token(oAuth2AccessToken.getValue())
+                .accessToken(oAuth2AccessToken.getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
                 .build();
