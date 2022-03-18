@@ -3,6 +3,7 @@ package com.ztax.iam.utils;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.ztax.common.result.ResultCode;
+import com.ztax.common.utils.ObjectUtils;
 import com.ztax.iam.auth.constants.AuthConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -26,6 +27,11 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         String jwtPayload = getHttpServletRequest().getHeader(AuthConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(jwtPayload);
         return jsonObject;
+    }
+
+    public static boolean withToken(){
+        String jwtPlyload = getHttpServletRequest().getHeader(AuthConstants.JWT_PAYLOAD_KEY);
+        return ObjectUtils.isNotBlank(jwtPlyload);
     }
 
     public static String getUserId() {

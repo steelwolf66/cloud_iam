@@ -23,6 +23,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -33,6 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
+
+        //判断当前操作是否携带token，其中是在gateway中处理过的数据
+        if (WebUtils.withToken()) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        //从token中获取用户id
         String userId = WebUtils.getUserId();
         QueryWrapper<User> queryWrapper = new QueryWrapper();
         queryWrapper.eq("user_id", userId);
@@ -40,10 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //获取权限
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(userByUserId, userDTO);
-
         SecurityUser currentUser = new SecurityUser(userDTO);
-
-
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(currentUser, currentUser.getPassword(), currentUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         chain.doFilter(request, response);
