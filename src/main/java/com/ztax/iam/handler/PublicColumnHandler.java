@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Component
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class PublicColumnHandler implements MetaObjectHandler {
 
 
     @Override
@@ -29,6 +29,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
         this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+        //todo 删除时，处理删除人和删除时间
     }
 
 }

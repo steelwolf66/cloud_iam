@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * mybatis代码生成器
+ * mybatis-plus代码生成器
  */
-// 演示例子，执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
+// 执行 main 方法控制台输入模块表名回车自动生成对应项目目录中
 public class PubCodeGenerator {
 
     public static void main(String[] args)  throws Exception {
@@ -34,7 +34,7 @@ public class PubCodeGenerator {
 //        // 自定义文件命名，注意 %s 会自动填充表实体属性！
         gc.setMapperName("%sMapper");
         gc.setXmlName("%sMapper");
-        gc.setAuthor("dingl");
+        gc.setAuthor("ztax");
         gc.setIdType(IdType.UUID);
         gc.setFileOverride(true);
         // 开启 activeRecord 模式
