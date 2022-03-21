@@ -29,19 +29,10 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-
-//    @Autowired
-//    private UserMapper userMapper;
-//    @Autowired
-//    private RoleMapper roleMapper;
-
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private UserModuleRelServiceImpl userModuleRelService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

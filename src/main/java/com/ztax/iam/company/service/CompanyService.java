@@ -1,14 +1,18 @@
 package com.ztax.iam.company.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ztax.iam.company.entity.Company;
-import com.ztax.zframe.mybatisplus.IBaseService;
+
 /**
  * <p>
-    *  服务类
+    *  公司
     * </p>
  *
  * @since 2022-03-15
  */
-public interface CompanyService extends IBaseService<Company> {
+public interface CompanyService extends IService<Company> {
+
+    void addOne(Company paramCompany);
+
 
 }

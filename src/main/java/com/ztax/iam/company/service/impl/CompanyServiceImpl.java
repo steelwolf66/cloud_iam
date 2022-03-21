@@ -1,13 +1,12 @@
 package com.ztax.iam.company.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ztax.common.utils.UuidUtil;
 import com.ztax.iam.company.entity.Company;
 import com.ztax.iam.company.mapper.CompanyMapper;
 import com.ztax.iam.company.service.CompanyService;
-import com.ztax.zframe.mybatisplus.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 /**
  * <p>
     *  服务实现类
@@ -16,27 +15,16 @@ import java.util.List;
  * @since 2022-03-15
  */
 @Service
-public class CompanyServiceImpl extends BaseService<Company> implements CompanyService {
-    @Resource
-    private CompanyMapper mapper;
+public class CompanyServiceImpl extends ServiceImpl<CompanyMapper,Company> implements CompanyService {
+@Autowired
+private CompanyMapper companyMapper;
 
-  public  void save(Company t){
-        mapper.insertSelective(t);
+    @Override
+    public void addOne(Company paramCompany) {
+
+        paramCompany.setCompanyId(UuidUtil.get32Uuid());
+
+        companyMapper.insert(paramCompany);
     }
-
-  public  int update(Company t){
-        return mapper.updateByPrimaryKey(t);
-    }
-
-  public  int delete(Company t){
-         t.setDelType("1");
-         return mapper.updateByPrimaryKey(t);
-    }
-
-  public  List<Company> queryListByBean(Company t){
-        return mapper.selectListByBean(t);
-    }
-
-
 }
 

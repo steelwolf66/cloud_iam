@@ -17,5 +17,5 @@ public interface UserModuleRelService extends IService<UserModuleRel> {
 
     void grant(List<UserModuleRel> grantList);
 
-    void deleteOldGrant(String userId);
+    void removeOldGrant(String userId);
 }

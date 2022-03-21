@@ -117,7 +117,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 自定义认证异常响应数据
-     *
+     * 这个是匿名用户访问，权限不足的异常
      * @return
      */
     @Bean
@@ -150,6 +150,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * 配置密钥对
      * （公钥+私钥)
      * RSA非对称加密方式
+     * 用来增加token的安全性、以及OAuth2 服务端和资源服务器 的安全性
      */
     @Bean
     public KeyPair keyPair() {
@@ -159,7 +160,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * 构建令牌增强器
-     *
+     * 将所需信息写入token中（当然，这里不建议织入过多数据，因为token是每次请求都要被携带的）
      * @return
      */
     @Bean

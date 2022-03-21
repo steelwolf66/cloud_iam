@@ -1,6 +1,7 @@
 package com.ztax.iam.module.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ztax.iam.module.entity.Module;
 
 import java.util.List;
@@ -12,14 +13,6 @@ import java.util.List;
  *
  * @since 2022-03-14
  */
-public interface ModuleService {
-    void addModule(Module paramModule);
+public interface ModuleService  extends IService<Module> {
 
-    int updateModule(Module paramModule);
-
-    int deleteModule(Module paramModule);
-
-    Page<Module> pageModule(Module paramModule);
-
-    List<Module> listModule(Module paramModule);
 }
