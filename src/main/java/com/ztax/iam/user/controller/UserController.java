@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.common.result.Result;
 import com.ztax.iam.user.constant.UserConstant;
 import com.ztax.iam.user.entity.User;
+import com.ztax.iam.user.entity.UserVO;
 import com.ztax.iam.user.service.impl.UserServiceImpl;
 import com.ztax.iam.utils.WebUtils;
 import lombok.AllArgsConstructor;
@@ -64,9 +65,10 @@ public class UserController {
      * @param paramUser
      * @return
      */
-    @PostMapping
+    @PutMapping("/one")
     public Result updateOne(@RequestBody User paramUser) {
-
+        userService.updateById(paramUser);
+        userService.updateById(paramUser);
         return Result.success();
     }
 
@@ -95,8 +97,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/page")
-    public Result userList(@RequestBody User paramUser) {
-        Page paramPage = new Page(1, 10);
+    public Result userList(@RequestBody UserVO paramUser) {
+        Page paramPage = new Page((paramUser.getPageNo()-1) * paramUser.getPageSize() + 1, paramUser.getPageSize());
         //todo 设置查询属性
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
 
