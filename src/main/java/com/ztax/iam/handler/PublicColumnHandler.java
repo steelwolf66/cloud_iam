@@ -1,11 +1,14 @@
 package com.ztax.iam.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.ztax.iam.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * mybatis plus拦截器，可以用来处理公共字段
@@ -14,13 +17,21 @@ import java.time.LocalDateTime;
 @Component
 public class PublicColumnHandler implements MetaObjectHandler {
 
+    private static final String CREATE_ID = "createId";
+    private static final String CREATE_TIME = "createTime";
+
+    private static final String UPDATE_ID = "updateId";
+    private static final String UPDATE_TIME = "updateTime";
+
+    private static final String DEL_ID = "delId";
+    private static final String DEL_TIME = "delTime";
+    private static final String DEL_FLG = "delFlg";
 
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("start insert fill ....");
-
-        this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
-        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+        this.setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
+        this.setFieldValByName(CREATE_ID, WebUtils.getUserId(), metaObject);
 
     }
 
@@ -28,8 +39,17 @@ public class PublicColumnHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
-        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-        //todo 删除时，处理删除人和删除时间
+
+        //处理逻辑删除 字段填充
+        if (metaObject.hasGetter(DEL_FLG) && metaObject.getValue(DEL_FLG) == Boolean.TRUE) {
+            this.setFieldValByName(DEL_TIME, LocalDateTime.now(), metaObject);
+            this.setFieldValByName(DEL_ID, WebUtils.getUserId(), metaObject);
+
+            //普通更新操作
+        } else {
+            this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+            this.setFieldValByName(UPDATE_ID, WebUtils.getUserId(), metaObject);
+        }
     }
 
 }

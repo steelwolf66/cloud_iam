@@ -8,4 +8,6 @@ import com.ztax.iam.user.entity.User;
  * </p>
 **/
 public interface UserMapper extends BaseMapper<User> {
+    //逻辑删除 字段填充功能（固定写法）
+    int deleteByIdWithFill(User entity);
 }

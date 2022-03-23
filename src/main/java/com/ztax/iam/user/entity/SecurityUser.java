@@ -33,8 +33,9 @@ public class SecurityUser implements UserDetails {
     public SecurityUser(UserDTO user) {
         this.setId(user.getUserId());
         this.setUsername(user.getUsername());
-        this.setPassword(AuthConstants.BCRYPT + user.getPassword());
-        this.setEnabled("1".equals(user.getStatus()));
+//        this.setPassword(AuthConstants.BCRYPT + user.getPassword());
+        this.setPassword(user.getPassword());
+        this.setEnabled(user.getEnabled());
         this.setClientId(user.getClientId());
         if (ObjectUtils.isNotBlank(user.getModuleIds())) {
             authorities = new ArrayList<>();

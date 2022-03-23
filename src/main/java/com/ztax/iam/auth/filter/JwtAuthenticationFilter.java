@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         //判断当前操作是否携带token，其中是在gateway中处理过的数据
-        if (WebUtils.withToken()) {
+        if (!WebUtils.withToken()) {
             chain.doFilter(request, response);
             return;
         }

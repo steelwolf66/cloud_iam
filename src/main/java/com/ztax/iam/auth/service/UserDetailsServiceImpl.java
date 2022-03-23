@@ -6,12 +6,9 @@ import com.ztax.iam.user.entity.SecurityUser;
 import com.ztax.iam.user.entity.User;
 import com.ztax.iam.user.entity.UserDTO;
 import com.ztax.iam.user.service.impl.UserServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,7 +50,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (ObjectUtils.isNotBlank(moduleIds)) {
             userDTO.setModuleIds(moduleIds);
         }
-
 
         SecurityUser currentUser = new SecurityUser(userDTO);
 

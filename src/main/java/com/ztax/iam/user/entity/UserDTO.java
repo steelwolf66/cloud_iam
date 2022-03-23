@@ -12,6 +12,7 @@ public class UserDTO {
     private String userId;
     private String username;
     private String password;
+    private Boolean enabled;
     private String status;
     private String clientId;
     private List<String> moduleIds;;

@@ -1,7 +1,7 @@
 package com.ztax.iam.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.common.result.Result;
 import com.ztax.iam.user.constant.UserConstant;
 import com.ztax.iam.user.entity.User;
@@ -12,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-;
-;
 
 @RestController
 @RequestMapping("/users")
@@ -31,13 +29,17 @@ public class UserController {
      * @return
      */
     @PostMapping("/one")
+    @Transactional(rollbackFor = Exception.class)
     public Result addOne(@RequestBody User paramUser) {
-        //todo 默认密码123456
-        passwordEncoder.encode(UserConstant.DEFAULT_USER_PASSWORD);
-//        userService.save(paramUser);
+        userService.processBeforeWrite(paramUser);
+
+        //默认密码123456
+        String pwd = passwordEncoder.encode(UserConstant.DEFAULT_USER_PASSWORD);
+        paramUser.setPassword(pwd);
+        userService.save(paramUser);
         //todo 设置用户关联权限
 
-        return Result.success();
+        return Result.success(paramUser);
     }
 
     /**
@@ -49,9 +51,11 @@ public class UserController {
     @DeleteMapping("/one/{userId}")
     @Transactional(rollbackFor = Exception.class)
     public Result deleteOne(@PathVariable("userId") String userId) {
-//        userService.deleteByPrimaryKey(userId);
 
-        return Result.success();
+
+        userService.deleteByIdWithFill(userId);
+
+        return Result.success(userId);
     }
 
     /**
@@ -77,7 +81,7 @@ public class UserController {
         //todo 从数据库中查询或从缓存中查询
 
         QueryWrapper<User> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id",userId);
+        queryWrapper.eq("user_id", userId);
         User userByUserId = userService.getOne(queryWrapper);
         //todo 查询权限信息
 
@@ -93,7 +97,10 @@ public class UserController {
     @PostMapping("/page")
     public Result userList(@RequestBody User paramUser) {
         Page paramPage = new Page(1, 10);
-//        PageInfo<User> userPageInfo = userService.queryPageByBean(paramUser, paramPage);
-        return Result.success();
+        //todo 设置查询属性
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+
+        Page resultPage = userService.page(paramPage, userQueryWrapper);
+        return Result.success(resultPage);
     }
 }

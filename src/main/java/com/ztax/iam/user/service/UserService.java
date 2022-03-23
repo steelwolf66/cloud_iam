@@ -15,4 +15,10 @@ import java.util.Optional;
 
 public interface UserService  extends IService<User> {
     Optional<User> loadUserByUsernameFromDB(String username);
+
+    boolean deleteByIdWithFill(String userId);
+
+    boolean checkUsernameAvailable(User paramUser);
+
+    void processBeforeWrite(User paramUser);
 }

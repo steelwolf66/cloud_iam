@@ -1,9 +1,6 @@
 package com.ztax.iam.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
@@ -93,7 +90,7 @@ public class User extends Model<User> implements Serializable {
     /**
      * 创建人
      */
-    @TableField("create_id")
+    @TableField(value = "create_id", fill = INSERT)
     private String createId;
 
     /**
@@ -105,7 +102,7 @@ public class User extends Model<User> implements Serializable {
     /**
      * 修改人
      */
-    @TableField("update_id")
+    @TableField(value = "update_id", fill = UPDATE)
     private String updateId;
 
     /**
@@ -117,7 +114,7 @@ public class User extends Model<User> implements Serializable {
     /**
      * 删除人
      */
-    @TableField("del_id")
+    @TableField(value ="del_id", fill = UPDATE)
     private String delId;
 
     /**
@@ -129,8 +126,9 @@ public class User extends Model<User> implements Serializable {
     /**
      * 删除标志
      */
-    @TableField("del_type")
-    private String delType;
+    @TableField("del_flg")
+    @TableLogic(value = "0", delval = "1")
+    private Boolean delFlg;
 
     public String getUserId() {
         return userId;
@@ -285,12 +283,12 @@ public class User extends Model<User> implements Serializable {
         return this;
     }
 
-    public String getDelType() {
-        return delType;
+    public Boolean getDelFlg() {
+        return delFlg;
     }
 
-    public User setDelType(String delType) {
-        this.delType = delType;
+    public User setDelFlg(Boolean delFlg) {
+        this.delFlg = delFlg;
         return this;
     }
 
@@ -319,7 +317,7 @@ public class User extends Model<User> implements Serializable {
                 ", updateTime=" + updateTime +
                 ", delId=" + delId +
                 ", delTime=" + delTime +
-                ", delType=" + delType +
+                ", delFlg=" + delFlg +
                 "}";
     }
 
