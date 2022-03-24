@@ -1,8 +1,6 @@
 package com.ztax.iam.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ztax.common.exception.BizException;
 import com.ztax.common.utils.ObjectUtils;
@@ -59,12 +57,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void processBeforeWrite(User paramUser) {
-        paramUser.setUsername(paramUser.getUsername().toLowerCase());
-
         //用户名不可为空
         if (ObjectUtils.isBlank(paramUser.getUsername())) {
             throw new BizException("用户名不可为空");
         }
+        //不区分大小写，DB中的username都存储小写的username
+        paramUser.setUsername(paramUser.getUsername().toLowerCase());
+
 
         //校验用户名是否可用
         boolean usernameAvailable = this.checkUsernameAvailable(paramUser);

@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.injector.methods.LogicDeleteByIdWithFi
 
 import java.util.List;
 
+/**
+ * SQL注入配置器
+ */
 public class MybatisPlusSqlInjector extends DefaultSqlInjector {
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {

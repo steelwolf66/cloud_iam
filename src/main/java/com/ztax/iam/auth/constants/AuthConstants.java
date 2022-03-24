@@ -1,10 +1,6 @@
 package com.ztax.iam.auth.constants;
 
 public interface AuthConstants {
-
-
-
-
     /**
      * 认证信息Http请求头
      */

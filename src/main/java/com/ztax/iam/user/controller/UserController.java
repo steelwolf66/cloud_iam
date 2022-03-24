@@ -3,6 +3,7 @@ package com.ztax.iam.user.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.common.result.Result;
+import com.ztax.common.utils.ObjectUtils;
 import com.ztax.iam.user.constant.UserConstant;
 import com.ztax.iam.user.entity.User;
 import com.ztax.iam.user.entity.UserVO;
@@ -67,7 +68,7 @@ public class UserController {
      */
     @PutMapping("/one")
     public Result updateOne(@RequestBody User paramUser) {
-        userService.updateById(paramUser);
+
         userService.updateById(paramUser);
         return Result.success();
     }
@@ -101,7 +102,8 @@ public class UserController {
         Page paramPage = new Page((paramUser.getPageNo()-1) * paramUser.getPageSize() + 1, paramUser.getPageSize());
         //todo 设置查询属性
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-
+        userQueryWrapper.like(ObjectUtils.isNotBlank(paramUser.getUsername()),"username",paramUser.getUsername())
+        .like(ObjectUtils.isNotBlank(paramUser.getNickname()),"nickname",paramUser.getNickname());
         Page resultPage = userService.page(paramPage, userQueryWrapper);
         return Result.success(resultPage);
     }

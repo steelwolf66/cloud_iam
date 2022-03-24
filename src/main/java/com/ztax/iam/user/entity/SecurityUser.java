@@ -1,7 +1,6 @@
 package com.ztax.iam.user.entity;
 
 import com.ztax.common.utils.ObjectUtils;
-import com.ztax.iam.auth.constants.AuthConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,6 +1,8 @@
 package com.ztax.iam.auth.controller;
 
 import cn.hutool.json.JSONObject;
+import com.ztax.common.constants.TokenConstant;
+import com.ztax.common.exception.BizException;
 import com.ztax.common.redis.utils.RedisUtils;
 import com.ztax.common.result.Result;
 import com.ztax.iam.auth.constants.AuthConstants;
@@ -27,20 +29,22 @@ public class LogoutController {
      * 使用黑名单模式
      * 当token未过期时，缓存到redis（即黑名单），失效时间为（token过期时间戳-当前时间戳）
      * 之后在登录时校验当前token是否在黑名单中
+     *
      * @return Result
      */
     @DeleteMapping("/logout")
     public Result logout() {
-
+        // 判断token是否为空
+        if (WebUtils.withToken()) {
+            throw new BizException("token不可为空");
+        }
         //获取token对象
         JSONObject jsonObject = WebUtils.getJwtPayload();
 
-        //todo 判断token是否为空
-
         // JWT唯一标识
-        String jti = jsonObject.getStr("jti");
+        String jti = jsonObject.getStr(TokenConstant.TOKEN_KEY_JTI);
         // JWT过期时间戳（秒）
-        long exp = jsonObject.getLong("exp");
+        long exp = jsonObject.getLong(TokenConstant.TOKEN_KEY_EXP);
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
 
         if (exp < currentTimeSeconds) { // token已过期，无需加入黑名单
