@@ -35,7 +35,7 @@ public class LogoutController {
     @DeleteMapping("/logout")
     public Result logout() {
         // 判断token是否为空
-        if (WebUtils.withToken()) {
+        if (!WebUtils.withToken()) {
             throw new BizException("token不可为空");
         }
         //获取token对象
@@ -43,8 +43,10 @@ public class LogoutController {
 
         // JWT唯一标识
         String jti = jsonObject.getStr(TokenConstant.TOKEN_KEY_JTI);
+
         // JWT过期时间戳（秒）
         long exp = jsonObject.getLong(TokenConstant.TOKEN_KEY_EXP);
+
         long currentTimeSeconds = System.currentTimeMillis() / 1000;
 
         if (exp < currentTimeSeconds) { // token已过期，无需加入黑名单

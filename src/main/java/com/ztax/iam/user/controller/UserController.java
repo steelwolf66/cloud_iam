@@ -69,6 +69,9 @@ public class UserController {
     @PutMapping("/one")
     public Result updateOne(@RequestBody User paramUser) {
 
+        //用户名不可修改
+        paramUser.setUsername(null);
+
         userService.updateById(paramUser);
         return Result.success();
     }

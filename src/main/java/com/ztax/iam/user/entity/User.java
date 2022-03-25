@@ -76,6 +76,12 @@ public class User extends Model<User> implements Serializable {
     private String userType;
 
     /**
+     * 用户机构id
+     */
+    @TableField("user_org")
+    private String userOrg;
+
+    /**
      * 用户企业id
      */
     @TableField("user_company")
@@ -209,6 +215,14 @@ public class User extends Model<User> implements Serializable {
     public User setUserType(String userType) {
         this.userType = userType;
         return this;
+    }
+
+    public String getUserOrg() {
+        return userOrg;
+    }
+
+    public void setUserOrg(String userOrg) {
+        this.userOrg = userOrg;
     }
 
     public String getUserCompany() {
