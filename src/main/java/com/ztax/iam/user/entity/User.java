@@ -323,6 +323,7 @@ public class User extends Model<User> implements Serializable {
                 ", status=" + status +
                 ", userMail=" + userMail +
                 ", userType=" + userType +
+                ", userOrg=" + userOrg +
                 ", userCompany=" + userCompany +
                 ", userCompName=" + userCompName +
                 ", createId=" + createId +

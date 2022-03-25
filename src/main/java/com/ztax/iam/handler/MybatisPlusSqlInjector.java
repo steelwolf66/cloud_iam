@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * SQL注入配置器
+ * 解决删除公共字段填充问题
  */
 public class MybatisPlusSqlInjector extends DefaultSqlInjector {
     @Override

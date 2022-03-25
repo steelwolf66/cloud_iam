@@ -37,7 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean deleteByIdWithFill(String userId) {
         User paramUser = new User();
         paramUser.setUserId(userId);
-        paramUser.setDelFlg(Boolean.TRUE);//传给update拦截器，标识该操作是delete转update的方法
+//        paramUser.setDelFlg(Boolean.TRUE);//传给update拦截器，标识该操作是delete转update的方法
         int i = mapper.deleteByIdWithFill(paramUser);
         return i == 1;
     }

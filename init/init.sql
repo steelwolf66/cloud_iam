@@ -36,7 +36,7 @@ CREATE TABLE `company` (
   `update_time` datetime DEFAULT NULL,
   `del_id` char(32) DEFAULT NULL,
   `del_time` datetime DEFAULT NULL,
-  `del_type` char(1) NOT NULL,
+  `del_flg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识',
   PRIMARY KEY (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -73,7 +73,7 @@ CREATE TABLE `module` (
   `update_time` datetime DEFAULT NULL,
   `del_id` char(32) DEFAULT NULL,
   `del_time` datetime DEFAULT NULL,
-  `del_type` varchar(255) NOT NULL,
+  `del_flg` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`module_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -121,42 +121,6 @@ INSERT INTO `oauth_client_details` VALUES ('ztax-gateway','求别改数据','123
 UNLOCK TABLES;
 
 --
--- Table structure for table `sys_user`
---
-
-DROP TABLE IF EXISTS `sys_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sys_user` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) DEFAULT NULL COMMENT '用户名',
-  `nickname` varchar(64) DEFAULT NULL COMMENT '昵称',
-  `gender` tinyint(1) DEFAULT '0' COMMENT '性别',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
-  `dept_id` int DEFAULT NULL COMMENT '部门ID',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '删除标识（0未删除 1已删除）',
-  `avatar` varchar(255) DEFAULT '' COMMENT '用户头像',
-  `mobile` varchar(20) DEFAULT NULL COMMENT '联系方式',
-  `status` tinyint(1) DEFAULT '0' COMMENT '用户状态（0正常 1禁用）',
-  `email` varchar(128) DEFAULT NULL COMMENT '用户邮箱',
-  `gmt_create` datetime DEFAULT NULL COMMENT '创建时间',
-  `gmt_modified` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `login_name` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sys_user`
---
-
-LOCK TABLES `sys_user` WRITE;
-/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,'root','超级管理员',1,'$2a$10$P97nHj/AVu6JBVCxmj5qEOwsI7rUhFeyu.DrK4ER7sebzv8jp7R5S',0,0,'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg','17621590365',1,'1490493387@qq.com','2021-02-10 12:27:30','2021-02-10 12:29:21'),(2,'admin','系统管理员',1,'$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC',1,0,'https://gitee.com/haoxr/image/raw/master/default/807b1042ed4c674d97bcf1f2976234d.jpg','17621210366',1,'1490493387@qq.com','2019-10-10 13:41:22','2021-02-10 12:29:13');
-/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -169,10 +133,11 @@ CREATE TABLE `user` (
   `username` varchar(45) NOT NULL COMMENT '用户名',
   `nickname` varchar(45) DEFAULT NULL COMMENT '昵称',
   `password` varchar(100) NOT NULL COMMENT '用户密码',
-  `enabled` tinyint(1) DEFAULT NULL COMMENT '是否启用',
+  `enabled` tinyint(1) DEFAULT '1' COMMENT '是否启用',
   `status` char(1) DEFAULT NULL COMMENT '用户状态\\n',
   `user_mail` varchar(50) DEFAULT NULL COMMENT '用户邮箱',
   `user_type` char(1) DEFAULT NULL COMMENT '用户类型',
+  `user_org` varchar(45) DEFAULT NULL,
   `user_company` char(32) DEFAULT NULL COMMENT '用户企业id',
   `user_comp_name` varchar(100) DEFAULT NULL COMMENT '用户企业名称',
   `create_id` char(32) DEFAULT NULL COMMENT '创建人',
@@ -181,7 +146,7 @@ CREATE TABLE `user` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_id` char(32) DEFAULT NULL COMMENT '删除人',
   `del_time` datetime DEFAULT NULL COMMENT '删除时间',
-  `del_type` char(1) DEFAULT NULL COMMENT '删除标志',
+  `del_flg` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -192,6 +157,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('1','1','admin','admin','{bcrypt}$2a$10$dLq3.pXNwTNqWabsRfJX4ej8Htk/vUWuHh.LvITq5BrU8u.dYvZpC',1,'1','1','1',NULL,'1','1',NULL,NULL,NULL,NULL,NULL,NULL,0),('67b529679b35059449eb1b33f40e50b6',NULL,'shw','wolf','{bcrypt}$2a$10$nxBcrE1qFRX/81aMG09s1OVV.x67iF7niwqiTMInXMwCyTshv6BV2',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-03-22 16:07:03',NULL,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +169,7 @@ DROP TABLE IF EXISTS `user_module_rel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_module_rel` (
-  `userl_id` char(32) NOT NULL,
+  `user_id` char(32) NOT NULL,
   `module_id` char(32) DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `user_num` int DEFAULT NULL
@@ -228,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-14 18:13:28
+-- Dump completed on 2022-03-25 18:07:23

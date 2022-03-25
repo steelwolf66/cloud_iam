@@ -1,14 +1,14 @@
 package com.ztax.iam.module.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import static com.baomidou.mybatisplus.annotation.FieldFill.INSERT;
+import static com.baomidou.mybatisplus.annotation.FieldFill.UPDATE;
 
 /**
  * <p>
@@ -76,26 +76,50 @@ public class Module extends Model<Module> {
     @TableField("user_number")
     private Integer userNumber;
 
-    @TableField("create_id")
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_id", fill = INSERT)
     private String createId;
 
-    @TableField("create_time")
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time", fill = INSERT)
     private LocalDateTime createTime;
 
-    @TableField("update_id")
+    /**
+     * 修改人
+     */
+    @TableField(value = "update_id", fill = UPDATE)
     private String updateId;
 
-    @TableField("update_time")
+    /**
+     * 修改时间
+     */
+    @TableField(value = "update_time", fill = UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField("del_id")
+    /**
+     * 删除人
+     */
+    @TableField(value ="del_id", fill = UPDATE)
     private String delId;
 
-    @TableField("del_time")
+    /**
+     * 删除时间
+     */
+    @TableField(value = "del_time", fill = UPDATE)
     private LocalDateTime delTime;
 
-    @TableField("del_type")
-    private String delType;
+    /**
+     * 删除标志
+     */
+    @TableField("del_flg")
+    @TableLogic(value = "0", delval = "1")
+    private Boolean delFlg;
+
 
     public String getModuleId() {
         return moduleId;
@@ -217,13 +241,13 @@ public class Module extends Model<Module> {
         this.delTime = delTime;
         return this;
     }
-    public String getDelType() {
-        return delType;
+
+    public Boolean getDelFlg() {
+        return delFlg;
     }
 
-    public Module setDelType(String delType) {
-        this.delType = delType;
-        return this;
+    public void setDelFlg(Boolean delFlg) {
+        this.delFlg = delFlg;
     }
 
     @Override
@@ -249,7 +273,7 @@ public class Module extends Model<Module> {
             ", updateTime=" + updateTime +
             ", delId=" + delId +
             ", delTime=" + delTime +
-            ", delType=" + delType +
+            ", delFlg=" + delFlg +
         "}";
     }
 
