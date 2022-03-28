@@ -14,5 +14,7 @@ public interface CompanyService extends IService<Company> {
 
     void addOne(Company paramCompany);
 
+    boolean deleteByIdWithFill(String companyId);
+
 
 }

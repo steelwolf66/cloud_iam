@@ -12,4 +12,6 @@ import com.ztax.iam.module.entity.Module;
  */
 public interface ModuleService  extends IService<Module> {
 
+    boolean deleteByIdWithFill(String moduleId);
+
 }

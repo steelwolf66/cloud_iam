@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.common.result.Result;
 import com.ztax.iam.company.entity.Company;
+import com.ztax.iam.company.entity.CompanyVO;
 import com.ztax.iam.company.service.impl.CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,13 +62,13 @@ public class CompanyController {
     /**
      * 分页查询
      *
-     * @param company
+     * @param paramCompany
      * @return
      */
     @PostMapping("/page")
-    public Result page(@RequestBody Company company) {
-        //todo 接收分页参数
-        Page paramPage = new Page(1, 10);
+    public Result page(@RequestBody CompanyVO paramCompany) {
+
+        Page paramPage = new Page((paramCompany.getPageNo() - 1) * paramCompany.getPageSize() + 1, paramCompany.getPageSize());
 
         //todo 拼接查询条件,
         QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
