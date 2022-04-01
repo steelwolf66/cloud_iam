@@ -2,6 +2,8 @@ package com.ztax.iam.user.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import static com.baomidou.mybatisplus.annotation.FieldFill.UPDATE;
  * @since 2022-03-14
  */
 @TableName("user")
+@JsonIgnoreProperties(value={"password"})
 public class User extends Model<User> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -171,7 +174,7 @@ public class User extends Model<User> implements Serializable {
         this.nickname = nickname;
         return this;
     }
-
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

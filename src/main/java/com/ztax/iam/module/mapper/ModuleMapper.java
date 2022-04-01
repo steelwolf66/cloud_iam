@@ -3,7 +3,6 @@ package com.ztax.iam.module.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ztax.iam.aspect.DelFill;
 import com.ztax.iam.module.entity.Module;
-import com.ztax.iam.user.entity.User;
 
 /**
  * <p>

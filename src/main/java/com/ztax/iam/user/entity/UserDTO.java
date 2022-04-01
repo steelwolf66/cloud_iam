@@ -15,6 +15,6 @@ public class UserDTO {
     private Boolean enabled;
     private String status;
     private String clientId;
-    private List<String> moduleIds;;
+    private List<String> moduleIds;
 
 }

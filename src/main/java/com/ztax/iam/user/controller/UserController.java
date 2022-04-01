@@ -32,7 +32,7 @@ public class UserController {
      */
     @PostMapping("/one")
     @Transactional(rollbackFor = Exception.class)
-    public Result addOne(@RequestBody User paramUser) {
+    public Result<User> addOne(@RequestBody User paramUser) {
         userService.processBeforeWrite(paramUser);
 
         //默认密码123456
@@ -52,7 +52,7 @@ public class UserController {
      */
     @DeleteMapping("/one/{userId}")
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteOne(@PathVariable("userId") String userId) {
+    public Result<String> deleteOne(@PathVariable("userId") String userId) {
 
 
         userService.deleteByIdWithFill(userId);
@@ -67,7 +67,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/one")
-    public Result updateOne(@RequestBody User paramUser) {
+    public Result<User> updateOne(@RequestBody User paramUser) {
 
         //用户名不可修改
         paramUser.setUsername(null);
@@ -82,11 +82,11 @@ public class UserController {
      * @return
      */
     @GetMapping("/me")
-    public Result myInfo() {
+    public Result<User> myInfo() {
         String userId = WebUtils.getUserId();
         //todo 从数据库中查询或从缓存中查询
 
-        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
         queryWrapper.eq("user_id", userId);
         User userByUserId = userService.getOne(queryWrapper);
         //todo 查询权限信息
@@ -101,13 +101,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/page")
-    public Result userList(@RequestBody UserVO paramUser) {
-        Page paramPage = new Page((paramUser.getPageNo()-1) * paramUser.getPageSize() + 1, paramUser.getPageSize());
+    public Result<Page<User>> userList(@RequestBody UserVO paramUser) {
+        Page<User> paramPage = new Page<User>((paramUser.getPageNo()-1) * paramUser.getPageSize() + 1, paramUser.getPageSize());
         //todo 设置查询属性
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.like(ObjectUtils.isNotBlank(paramUser.getUsername()),"username",paramUser.getUsername())
         .like(ObjectUtils.isNotBlank(paramUser.getNickname()),"nickname",paramUser.getNickname());
-        Page resultPage = userService.page(paramPage, userQueryWrapper);
+        Page<User> resultPage = userService.page(paramPage, userQueryWrapper);
         return Result.success(resultPage);
     }
 }
