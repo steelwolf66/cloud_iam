@@ -71,7 +71,7 @@ public class ModuleController {
     @PostMapping("/page")
     public Page<Module> page(@RequestBody ModuleVO paramModule) {
         Page<Module> objectPage = new Page<Module>((paramModule.getPageNo() - 1) * paramModule.getPageSize() + 1, paramModule.getPageSize());
-        //todo 配置查询条件
+        //配置查询条件
         QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
 
         Page<Module> page = moduleService.page(objectPage, moduleQueryWrapper);
