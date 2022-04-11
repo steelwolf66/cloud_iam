@@ -70,17 +70,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- feign -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-openfeign</artifactId>-->
-<!--            <version>2.0.2.RELEASE</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-            <version>3.1.0</version>
-        </dependency>
         <!-- security-->
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
@@ -100,12 +89,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!-- mybatis -->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis.spring.boot</groupId>-->
-<!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
-<!--            <version>2.1.0</version>-->
-<!--        </dependency>-->
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -121,27 +104,13 @@
             <version>0.0.3</version>
         </dependency>
 
-        <!-- mybatis plus -->
+        <!-- ztax mybatis plus -->
         <dependency>
             <groupId>com.ztax.zframe</groupId>
             <artifactId>mybatis-plus</artifactId>
             <version>0.0.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-boot-starter</artifactId>-->
-<!--            <version>3.5.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-generator</artifactId>-->
-<!--            <version>3.5.1</version>-->
-<!--        </dependency>-->
+
     </dependencies>
 
     <build>

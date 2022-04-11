@@ -64,7 +64,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //不区分大小写，DB中的username都存储小写的username
         paramUser.setUsername(paramUser.getUsername().toLowerCase());
 
-
         //校验用户名是否可用
         boolean usernameAvailable = this.checkUsernameAvailable(paramUser);
 

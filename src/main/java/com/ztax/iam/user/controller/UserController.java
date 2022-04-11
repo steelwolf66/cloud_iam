@@ -53,10 +53,7 @@ public class UserController {
     @DeleteMapping("/one/{userId}")
     @Transactional(rollbackFor = Exception.class)
     public Result<String> deleteOne(@PathVariable("userId") String userId) {
-
-
         userService.deleteByIdWithFill(userId);
-
         return Result.success(userId);
     }
 
