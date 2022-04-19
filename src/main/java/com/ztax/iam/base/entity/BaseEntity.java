@@ -1,4 +1,4 @@
-package com.ztax.iam.entity;
+package com.ztax.iam.base.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;

@@ -60,7 +60,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         List<Module> resultList = this.list(baseQuery);
         //封装静态meta信息（前端路由组件要求）
         resultList.parallelStream().forEach(item -> {
-            item.setMeta(new Meta(item.getModuleName(), item.getHidden(), false, Arrays.asList("ADMIN")));
+            item.setMeta(new Meta(item.getModuleName(), item.getIcon(), item.getHidden(), false, Arrays.asList("ADMIN")));
         });
         List<Module> modules = TreeUtil.toTree(resultList, Module::getModuleId, Module::getParentId, Module::setChildren, true);
         return modules;

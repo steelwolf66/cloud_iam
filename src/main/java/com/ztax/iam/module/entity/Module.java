@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ztax.iam.entity.BaseEntity;
+import com.ztax.iam.base.entity.BaseEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

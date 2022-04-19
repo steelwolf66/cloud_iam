@@ -13,6 +13,7 @@ import java.util.List;
 public class Meta {
 
     private String title;
+    private String icon;
     private boolean hidden;
     private boolean alwaysShow;
     private List<String> roles;
