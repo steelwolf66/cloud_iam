@@ -2,8 +2,9 @@ package com.ztax.iam.module.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ModuleVO extends Module {
-    private Integer pageNo;
-    private Integer pageSize;
+private List<Module> children;
 }

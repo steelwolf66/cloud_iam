@@ -14,22 +14,27 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class WebUtils extends org.springframework.web.util.WebUtils {
 
-
+    /**
+     * 获取httpServletRequest
+     * @return
+     */
     public static HttpServletRequest getHttpServletRequest() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request;
     }
 
     /**
+     * 获取token中的对象信息
      *
-     * 存在两种情况，一种是通过gateway进入的请求，一种是通过feign内部调用的请求，当前只是处理了gateway的请求
+     * 存在两种情况，一种是通过gateway进入的请求，一种是通过feign（或HTTP请求）内部调用的请求
+     * 默认：从header中获取gateway处理后的payload，获取不到
+     * 则从request中获取token，重新解析
      *
-     * @return
+     * @return JSONObject token载体
      */
     public static JSONObject getJwtPayload() {
         //gateway
@@ -52,27 +57,47 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         return payloadsonObject;
     }
 
+    /**
+     * 是否携带token
+     * @return
+     */
     public static boolean withToken() {
         return ObjectUtils.isNotBlank(getToken());
     }
 
+    /**
+     * 获取token
+     * @return
+     */
     public static String getToken() {
         return getHttpServletRequest().getHeader(AuthConstants.JWT_TOKEN_HEADER);
     }
 
+    /**
+     * 获取用户id
+     * @return
+     */
     public static String getUserId() {
         String id = getJwtPayload().getStr(AuthConstants.JWT_USER_ID_KEY);
         return id;
     }
 
+    /**
+     * 获取client id
+     * @return
+     */
     public static String getClientId() {
         String clientId = getJwtPayload().getStr(AuthConstants.JWT_CLIENT_ID_KEY);
         return clientId;
     }
 
-    public static List<Long> getRoleIds() {
-        List<String> list = getJwtPayload().get(AuthConstants.JWT_AUTHORITIES_KEY, List.class);
-        List<Long> authorities = list.stream().map(Long::valueOf).collect(Collectors.toList());
+    /**
+     * 获取角色id集合
+     *
+     * @return
+     */
+    public static List<String> getRoleIds() {
+        List<String> authorities = getJwtPayload().get(AuthConstants.JWT_AUTHORITIES_KEY, List.class);
         return authorities;
     }
 

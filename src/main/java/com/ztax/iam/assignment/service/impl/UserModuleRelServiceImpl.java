@@ -6,6 +6,7 @@ import com.ztax.common.utils.ObjectUtils;
 import com.ztax.iam.assignment.entity.UserModuleRel;
 import com.ztax.iam.assignment.mapper.UserModuleRelMapper;
 import com.ztax.iam.assignment.service.UserModuleRelService;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +30,8 @@ public class UserModuleRelServiceImpl extends ServiceImpl<UserModuleRelMapper, U
     /**
      * 通过用户id加载所有授权
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 所有授权
      */
     @Override
     public List<String> loadModuleIdsByUserId(String userId) {
@@ -43,7 +44,7 @@ public class UserModuleRelServiceImpl extends ServiceImpl<UserModuleRelMapper, U
     /**
      * 用户授权
      *
-     * @param grantList
+     * @param grantList 授权列表
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -61,11 +62,11 @@ public class UserModuleRelServiceImpl extends ServiceImpl<UserModuleRelMapper, U
     /**
      * 删除当前用户【历史授权】
      *
-     * @param userId
+     * @param userId 用户id
      */
     @Override
     public void removeOldGrant(String userId) {
-        QueryWrapper paramWrapper = new QueryWrapper();
+        QueryWrapper<UserModuleRel> paramWrapper = new QueryWrapper<UserModuleRel>();
         paramWrapper.eq("user_id", userId);
         this.remove(paramWrapper);
     }

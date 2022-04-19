@@ -13,4 +13,5 @@ public interface ModuleMapper extends BaseMapper<Module> {
     //逻辑删除 字段填充功能（固定写法）
     @DelFill
     int deleteByIdWithFill(Module entity);
+
 }
