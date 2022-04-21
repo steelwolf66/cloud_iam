@@ -7,6 +7,7 @@ import com.ztax.common.result.Result;
 import com.ztax.common.utils.ObjectUtils;
 import com.ztax.common.utils.UuidUtil;
 import com.ztax.iam.module.entity.Module;
+import com.ztax.iam.module.entity.RouterVO;
 import com.ztax.iam.module.service.impl.ModuleServiceImpl;
 import com.ztax.iam.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,12 +98,20 @@ public class ModuleController {
     @GetMapping("/tree")
     public Result<List<Module>> moduleTree() {
         String userId = WebUtils.getUserId();
-        //admin 返回所有菜单
-        if ("1".equalsIgnoreCase(userId)) {
-            return Result.success(moduleService.list(new QueryWrapper<>(), true, true));
-        }
         List<Module> moduleList = moduleService.loadModuleEntityListByUserId(userId, true, true);
         return Result.success(moduleList);
     }
 
+    /**
+     * route for 前端
+     * 通过当前用户id查询
+     *
+     * @return Result<List < Module>>
+     */
+    @GetMapping("/route")
+    public Result<List<RouterVO>> routeTree() {
+        String userId = WebUtils.getUserId();
+        List<RouterVO> routerVOList = moduleService.loadRouterByUserId(userId, true);
+        return Result.success(routerVOList);
+    }
 }

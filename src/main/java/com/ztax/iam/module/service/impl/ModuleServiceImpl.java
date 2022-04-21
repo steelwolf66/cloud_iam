@@ -8,6 +8,7 @@ import com.ztax.common.utils.TreeUtil;
 import com.ztax.iam.assignment.service.impl.UserModuleRelServiceImpl;
 import com.ztax.iam.module.entity.Meta;
 import com.ztax.iam.module.entity.Module;
+import com.ztax.iam.module.entity.RouterVO;
 import com.ztax.iam.module.mapper.ModuleMapper;
 import com.ztax.iam.module.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -133,17 +133,48 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     @Override
     public List<Module> loadModuleEntityListByUserId(String userId, boolean isTree, boolean withMeta) {
         //todo 一个SQL来完成,加载用户关联菜单实体
-        //加载用户关联的所有模块id
-        List<String> moduleIdsByUserId = userModuleRelService.loadModuleIdsByUserId(userId);
-        if (ObjectUtils.isBlank(moduleIdsByUserId)) {
-            return new ArrayList<>();
-        }
+        QueryWrapper<Module> moduleQueryWrapper = this.queryWrapperByUserId(userId);
         //通过模块id查询实体
-        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
-        moduleQueryWrapper.in(ObjectUtils.isNotBlank(moduleIdsByUserId), "module_id", moduleIdsByUserId);
-
         List<Module> treeModules = this.list(moduleQueryWrapper, isTree, withMeta);
         return treeModules;
+    }
+
+    public QueryWrapper<Module> queryWrapperByUserId(String userId) {
+        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
+        //非admin ,查询关联菜单
+        if (!"1".equalsIgnoreCase(userId)) {
+            List<String> moduleIdsByUserId = userModuleRelService.loadModuleIdsByUserId(userId);
+            if (ObjectUtils.isBlank(moduleIdsByUserId)) {
+                throw new BizException("该用户未授权");
+            }
+            moduleQueryWrapper
+                    .in(ObjectUtils.isNotBlank(moduleIdsByUserId), "module_id", moduleIdsByUserId);
+        }
+        return moduleQueryWrapper;
+    }
+
+    @Override
+    public List<RouterVO> loadRouterByUserId(String userId, boolean isTree) {
+        List<Module> moduleList = this.loadModuleEntityListByUserId(userId, false, true);
+        List<RouterVO> routerVOList = new ArrayList<>();
+        moduleList.parallelStream().forEach(item -> {
+            RouterVO routerVO = new RouterVO();
+            routerVO.setId(item.getModuleId());
+            routerVO.setParentId(item.getParentId());
+            routerVO.setName(item.getModuleName());
+            routerVO.setComponent(item.getComponent());
+            routerVO.setPath(item.getPath());
+            routerVO.setMeta(item.getMeta());
+            routerVOList.add(routerVO);
+        });
+        List<RouterVO> routerVOListResult = new ArrayList<>();
+
+        //是否处理成树
+        if (isTree) {
+            routerVOListResult = TreeUtil.toTree(routerVOList, RouterVO::getId, RouterVO::getParentId, RouterVO::setChildren, true);
+            return routerVOListResult;
+        }
+        return routerVOList;
     }
 }
 
