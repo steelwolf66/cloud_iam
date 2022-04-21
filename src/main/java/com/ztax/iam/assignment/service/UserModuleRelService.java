@@ -16,7 +16,7 @@ import java.util.List;
 public interface UserModuleRelService extends IService<UserModuleRel> {
     List<String> loadModuleIdsByUserId(String userId);
 
-    List<Module> loadModuleListByUserId(String userId,boolean isTree);
+//    List<Module> loadModuleListByUserId(String userId,boolean isTree);
 
     void grant(List<UserModuleRel> grantList);
 

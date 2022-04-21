@@ -31,9 +31,6 @@ public class UserModuleRelServiceImpl extends ServiceImpl<UserModuleRelMapper, U
     @Resource
     private UserModuleRelMapper mapper;
 
-    @Autowired
-    private ModuleServiceImpl moduleService;
-
     /**
      * 通过用户id加载所有授权（菜单id集合）
      *
@@ -48,33 +45,6 @@ public class UserModuleRelServiceImpl extends ServiceImpl<UserModuleRelMapper, U
         return resultList.stream().map(UserModuleRel::getModuleId).collect(Collectors.toList());
     }
 
-    /**
-     * 加载用户关联的菜单实体
-     *
-     * @param userId 用户id
-     * @param isTree 是否是树
-     * @return 菜单实体集合
-     */
-    @Override
-    public List<Module> loadModuleListByUserId(String userId, boolean isTree) {
-        //todo 一个SQL来完成,加载用户关联菜单实体
-        //加载用户关联的所有模块id
-        List<String> moduleIdsByUserId = this.loadModuleIdsByUserId(userId);
-        if (ObjectUtils.isBlank(moduleIdsByUserId)) {
-            return new ArrayList<>();
-        }
-        //通过模块id查询实体
-        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
-        moduleQueryWrapper.in(ObjectUtils.isNotBlank(moduleIdsByUserId), "module_id", moduleIdsByUserId);
-        List<Module> treeModules = moduleService.list(moduleQueryWrapper);
-
-        //将结果转化为树
-        if (isTree) {
-            treeModules = TreeUtil.toTree(treeModules, Module::getModuleId, Module::getParentId, Module::setChildren, true);
-        }
-
-        return treeModules;
-    }
 
     /**
      * 用户授权

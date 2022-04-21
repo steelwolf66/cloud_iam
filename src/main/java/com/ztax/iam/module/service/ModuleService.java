@@ -13,16 +13,18 @@ import java.util.List;
  *
  * @since 2022-03-14
  */
-public interface ModuleService  extends IService<Module> {
+public interface ModuleService extends IService<Module> {
 
     boolean deleteByIdWithFill(String moduleId);
 
     List<Module> list(QueryWrapper<Module> moduleQueryWrapper);
 
-    List<Module> listTree(QueryWrapper<Module> moduleQueryWrapper,boolean withMeta);
+    List<Module> list(QueryWrapper<Module> moduleQueryWrapper, boolean isTree, boolean withMeta);
 
     void checkInfoAvailable(Module baseQuery);
 
     boolean hasChild(String moduleId);
+
+    List<Module> loadModuleEntityListByUserId(String userId, boolean isTree, boolean withMeta);
 
 }

@@ -8,6 +8,7 @@ import com.ztax.common.utils.ObjectUtils;
 import com.ztax.common.utils.UuidUtil;
 import com.ztax.iam.module.entity.Module;
 import com.ztax.iam.module.service.impl.ModuleServiceImpl;
+import com.ztax.iam.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ModuleController {
      * 新增一个模块
      *
      * @param paramModule 参数实体
-     * @return  Result<Module>
+     * @return Result<Module>
      */
     @PostMapping("/one")
     @Transactional(rollbackFor = Exception.class)
@@ -43,6 +44,7 @@ public class ModuleController {
 
     /**
      * 查询模块详情
+     *
      * @param moduleId 模块id
      * @return Result<Module> 模块实体
      */
@@ -61,7 +63,7 @@ public class ModuleController {
     @Transactional(rollbackFor = Exception.class)
     public Result<String> deleteOne(@PathVariable("moduleId") String moduleId) {
         //删除校验 ，需先删除下级模块
-        if(moduleService.hasChild(moduleId)){
+        if (moduleService.hasChild(moduleId)) {
             throw new BizException("当前模块存在子模块，请先删除下级模块");
         }
         moduleService.deleteByIdWithFill(moduleId);
@@ -88,13 +90,19 @@ public class ModuleController {
 
     /**
      * 查询模块树 for 前端
-     * @return Result<List<Module>>
+     * 通过当前用户id查询
+     *
+     * @return Result<List < Module>>
      */
     @GetMapping("/tree")
     public Result<List<Module>> moduleTree() {
-        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
-        List<Module> modules = moduleService.listTree(moduleQueryWrapper,true);
-        return Result.success(modules);
+        String userId = WebUtils.getUserId();
+        //admin 返回所有菜单
+        if ("1".equalsIgnoreCase(userId)) {
+            return Result.success(moduleService.list(new QueryWrapper<>(), true, true));
+        }
+        List<Module> moduleList = moduleService.loadModuleEntityListByUserId(userId, true, true);
+        return Result.success(moduleList);
     }
 
 }

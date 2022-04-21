@@ -21,7 +21,8 @@ public class UserModuleRelController {
 
     @Autowired
     private UserModuleRelServiceImpl userModuleRelService;
-
+    @Autowired
+    private ModuleServiceImpl moduleService;
 
     /**
      * 用户关联菜单
@@ -70,6 +71,6 @@ public class UserModuleRelController {
      */
     @GetMapping("/modules/entity/{userId}")
     public Result<List<Module>> loadModuleListByUserId(@PathVariable("userId") String userId) {
-        return Result.success(userModuleRelService.loadModuleListByUserId(userId, false));
+        return Result.success(moduleService.loadModuleEntityListByUserId(userId, false, false));
     }
 }

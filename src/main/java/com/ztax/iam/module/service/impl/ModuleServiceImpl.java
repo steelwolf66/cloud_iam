@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ztax.common.exception.BizException;
 import com.ztax.common.utils.ObjectUtils;
 import com.ztax.common.utils.TreeUtil;
+import com.ztax.iam.assignment.service.impl.UserModuleRelServiceImpl;
 import com.ztax.iam.module.entity.Meta;
 import com.ztax.iam.module.entity.Module;
 import com.ztax.iam.module.mapper.ModuleMapper;
@@ -12,6 +13,7 @@ import com.ztax.iam.module.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +29,8 @@ import java.util.List;
 public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> implements ModuleService {
     @Autowired
     private ModuleMapper moduleMapper;
+    @Autowired
+    private UserModuleRelServiceImpl userModuleRelService;
 
     /**
      * 逻辑删除，自动填充公共字段
@@ -55,9 +59,9 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
      * @return
      */
     @Override
-    public List<Module> listTree(QueryWrapper<Module> moduleQueryWrapper, boolean withMeta) {
+    public List<Module> list(QueryWrapper<Module> moduleQueryWrapper, boolean isTree, boolean withMeta) {
         List<Module> resultList = this.list(moduleQueryWrapper);
-        if(withMeta){
+        if (withMeta) {
             //封装静态meta信息（前端路由组件要求）
             resultList.parallelStream()
                     .forEach(item -> {
@@ -69,8 +73,10 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
                                 , Arrays.asList("ADMIN")));
                     });
         }
-        List<Module> modules = TreeUtil.toTree(resultList, Module::getModuleId, Module::getParentId, Module::setChildren, true);
-        return modules;
+        if (isTree) {
+            resultList = TreeUtil.toTree(resultList, Module::getModuleId, Module::getParentId, Module::setChildren, true);
+        }
+        return resultList;
     }
 
     /**
@@ -116,5 +122,28 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         return ObjectUtils.isNotBlank(modules);
     }
 
+
+    /**
+     * 加载用户关联的菜单实体
+     *
+     * @param userId 用户id
+     * @param isTree 是否是树
+     * @return 菜单实体集合
+     */
+    @Override
+    public List<Module> loadModuleEntityListByUserId(String userId, boolean isTree, boolean withMeta) {
+        //todo 一个SQL来完成,加载用户关联菜单实体
+        //加载用户关联的所有模块id
+        List<String> moduleIdsByUserId = userModuleRelService.loadModuleIdsByUserId(userId);
+        if (ObjectUtils.isBlank(moduleIdsByUserId)) {
+            return new ArrayList<>();
+        }
+        //通过模块id查询实体
+        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
+        moduleQueryWrapper.in(ObjectUtils.isNotBlank(moduleIdsByUserId), "module_id", moduleIdsByUserId);
+
+        List<Module> treeModules = this.list(moduleQueryWrapper, isTree, withMeta);
+        return treeModules;
+    }
 }
 

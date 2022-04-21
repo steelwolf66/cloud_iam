@@ -47,9 +47,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         //设置菜单(即权限)集合
         List<String> moduleIds = userModuleRelService.loadModuleIdsByUserId(userId);
-        if (ObjectUtils.isNotBlank(moduleIds)) {
-            userDTO.setModuleIds(moduleIds);
-        }
+        //todo 设置权限
+//        if (ObjectUtils.isNotBlank(moduleIds)) {
+//            userDTO.setModuleIds(moduleIds);
+//        }
 
         SecurityUser currentUser = new SecurityUser(userDTO);
 
