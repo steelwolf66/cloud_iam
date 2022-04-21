@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * 从数据库中的用户转换为security需要的用户的中间实体
+ */
 @Data
 @NoArgsConstructor
 public class UserDTO {

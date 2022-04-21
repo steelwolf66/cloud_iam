@@ -1,6 +1,7 @@
 package com.ztax.iam.module.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ztax.common.exception.BizException;
 import com.ztax.common.result.Result;
 import com.ztax.common.utils.ObjectUtils;
@@ -86,13 +87,13 @@ public class ModuleController {
     }
 
     /**
-     * 查询模块树
+     * 查询模块树 for 前端
      * @return Result<List<Module>>
      */
     @GetMapping("/tree")
     public Result<List<Module>> moduleTree() {
-        Module paramModule = new Module();
-        List<Module> modules = moduleService.listTree(paramModule);
+        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
+        List<Module> modules = moduleService.listTree(moduleQueryWrapper,true);
         return Result.success(modules);
     }
 

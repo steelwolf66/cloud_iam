@@ -3,6 +3,8 @@ package com.ztax.iam.company.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ztax.common.result.Result;
+import com.ztax.common.utils.ObjectUtils;
+import com.ztax.common.utils.UuidUtil;
 import com.ztax.iam.company.entity.Company;
 import com.ztax.iam.company.entity.CompanyVO;
 import com.ztax.iam.company.service.impl.CompanyServiceImpl;
@@ -26,7 +28,7 @@ public class CompanyController {
     @PostMapping("/one")
     @Transactional(rollbackFor = Exception.class)
     public Result addOne(@RequestBody Company company) {
-
+        company.setCompanyId(UuidUtil.get32Uuid());
         companyService.addOne(company);
 
         return Result.success(company);
@@ -42,6 +44,7 @@ public class CompanyController {
     @Transactional(rollbackFor = Exception.class)
     public Result deleteOne(@PathVariable("id") String id) {
         companyService.removeById(id);
+        //todo 查询公司下是否有其他资源，例如用户等
         return Result.success(id);
     }
 
@@ -53,7 +56,6 @@ public class CompanyController {
      */
     @PutMapping("/one")
     public Result updateOne(@RequestBody Company company) {
-
         companyService.updateById(company);
 
         return Result.success(company);
@@ -66,13 +68,13 @@ public class CompanyController {
      * @return
      */
     @PostMapping("/page")
-    public Result page(@RequestBody CompanyVO paramCompany) {
+    public Result page(@RequestBody Company paramCompany) {
 
-        Page paramPage = new Page((paramCompany.getPageNo() - 1) * paramCompany.getPageSize() + 1, paramCompany.getPageSize());
+        Page paramPage = new Page(paramCompany.getPageNo(), paramCompany.getPageSize());
 
         //todo 拼接查询条件,
         QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
-
+        companyQueryWrapper.like(ObjectUtils.isNotBlank(paramCompany.getCompanyName()),"company_name",paramCompany.getCompanyName());
         Page resultPage = companyService.page(paramPage, companyQueryWrapper);
         return Result.success(resultPage);
     }

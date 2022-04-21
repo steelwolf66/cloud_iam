@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MyBatisPlusConfig {
-
+    /**
+     * MP 分页配置
+     * @return
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor page = new PaginationInterceptor();

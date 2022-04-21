@@ -1,5 +1,6 @@
 package com.ztax.iam.module.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ztax.iam.module.entity.Module;
 
@@ -16,9 +17,9 @@ public interface ModuleService  extends IService<Module> {
 
     boolean deleteByIdWithFill(String moduleId);
 
-    List<Module> list(Module baseQuery);
+    List<Module> list(QueryWrapper<Module> moduleQueryWrapper);
 
-    List<Module> listTree(Module baseQuery);
+    List<Module> listTree(QueryWrapper<Module> moduleQueryWrapper,boolean withMeta);
 
     void checkInfoAvailable(Module baseQuery);
 

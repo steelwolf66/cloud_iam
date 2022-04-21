@@ -31,11 +31,11 @@ public class UserModuleRel extends Model<UserModuleRel> {
     @TableField("user_num")
     private Integer userNum;
 
-    public String getUserlId() {
+    public String getUserId() {
         return userId;
     }
 
-    public UserModuleRel setUserlId(String userlId) {
+    public UserModuleRel setUserId(String userlId) {
         this.userId = userlId;
         return this;
     }
@@ -78,5 +78,4 @@ public class UserModuleRel extends Model<UserModuleRel> {
             ", userNum=" + userNum +
         "}";
     }
-
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,26 +43,32 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     }
 
     @Override
-    public List<Module> list(Module baseQuery) {
+    public List<Module> list(QueryWrapper<Module> moduleQueryWrapper) {
         //查询模块列表
-        QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
-        //todo 配置查询条件
         return this.baseMapper.selectList(moduleQueryWrapper);
     }
 
     /**
      * 返回树状路由表
      *
-     * @param baseQuery
+     * @param moduleQueryWrapper
      * @return
      */
     @Override
-    public List<Module> listTree(Module baseQuery) {
-        List<Module> resultList = this.list(baseQuery);
-        //封装静态meta信息（前端路由组件要求）
-        resultList.parallelStream().forEach(item -> {
-            item.setMeta(new Meta(item.getModuleName(), item.getIcon(), item.getHidden(), false, Arrays.asList("ADMIN")));
-        });
+    public List<Module> listTree(QueryWrapper<Module> moduleQueryWrapper, boolean withMeta) {
+        List<Module> resultList = this.list(moduleQueryWrapper);
+        if(withMeta){
+            //封装静态meta信息（前端路由组件要求）
+            resultList.parallelStream()
+                    .forEach(item -> {
+                        item.setMeta(new Meta(
+                                item.getModuleName()
+                                , item.getIcon()
+                                , item.getHidden()
+                                , false
+                                , Arrays.asList("ADMIN")));
+                    });
+        }
         List<Module> modules = TreeUtil.toTree(resultList, Module::getModuleId, Module::getParentId, Module::setChildren, true);
         return modules;
     }

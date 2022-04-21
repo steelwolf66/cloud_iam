@@ -99,11 +99,12 @@ public class UserController {
      */
     @PostMapping("/page")
     public Result<Page<User>> userList(@RequestBody UserVO paramUser) {
-        Page<User> paramPage = new Page<User>((paramUser.getPageNo()-1) * paramUser.getPageSize() + 1, paramUser.getPageSize());
+        Page<User> paramPage = new Page<User>(paramUser.getPageNo(), paramUser.getPageSize());
         //todo 设置查询属性
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like(ObjectUtils.isNotBlank(paramUser.getUsername()),"username",paramUser.getUsername())
-        .like(ObjectUtils.isNotBlank(paramUser.getNickname()),"nickname",paramUser.getNickname());
+        userQueryWrapper
+                .like(ObjectUtils.isNotBlank(paramUser.getUsername()), "username", paramUser.getUsername())
+                .like(ObjectUtils.isNotBlank(paramUser.getNickname()), "nickname", paramUser.getNickname());
         Page<User> resultPage = userService.page(paramPage, userQueryWrapper);
         return Result.success(resultPage);
     }

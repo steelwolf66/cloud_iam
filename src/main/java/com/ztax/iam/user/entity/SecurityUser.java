@@ -12,6 +12,7 @@ import java.util.Collection;
 
 /**
  * 登录用户信息
+ * 用来封装security相关认证信息
  */
 @Data
 @NoArgsConstructor
