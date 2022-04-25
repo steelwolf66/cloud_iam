@@ -16,5 +16,6 @@ public class Meta {
     private String icon;
     private boolean hidden;
     private boolean alwaysShow;
+    private String moduelType;
     private List<String> roles;
 }

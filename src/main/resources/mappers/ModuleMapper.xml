@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztax.iam.module.mapper.ModuleMapper">
+
+
+    <select id="selectModuleListByUserId" resultType="com.ztax.iam.module.entity.Module"
+            parameterType="java.lang.String">
+    SELECT
+        *
+    FROM
+        module m
+            LEFT JOIN
+        user_module_rel a ON m.module_id = a.module_id
+    WHERE
+        a.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+</mapper>

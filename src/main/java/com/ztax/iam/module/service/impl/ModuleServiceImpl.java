@@ -6,6 +6,7 @@ import com.ztax.common.exception.BizException;
 import com.ztax.common.utils.ObjectUtils;
 import com.ztax.common.utils.TreeUtil;
 import com.ztax.iam.assignment.service.impl.UserModuleRelServiceImpl;
+import com.ztax.iam.base.constant.AdminConstant;
 import com.ztax.iam.module.entity.Meta;
 import com.ztax.iam.module.entity.Module;
 import com.ztax.iam.module.entity.RouterVO;
@@ -70,6 +71,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
                                 , item.getIcon()
                                 , item.getHidden()
                                 , false
+                                , item.getModuleType()
                                 , Arrays.asList("ADMIN")));
                     });
         }
@@ -122,6 +124,12 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         return ObjectUtils.isNotBlank(modules);
     }
 
+    @Override
+    public List<Module> getModulsByUserId(String userId) {
+        List<Module> modules = moduleMapper.selectModuleListByUserId(userId);
+        return modules;
+    }
+
 
     /**
      * 加载用户关联的菜单实体
@@ -142,7 +150,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     public QueryWrapper<Module> queryWrapperByUserId(String userId) {
         QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
         //非admin ,查询关联菜单
-        if (!"1".equalsIgnoreCase(userId)) {
+        if (!AdminConstant.USER_ID_ADMIN.equalsIgnoreCase(userId)) {
             List<String> moduleIdsByUserId = userModuleRelService.loadModuleIdsByUserId(userId);
             if (ObjectUtils.isBlank(moduleIdsByUserId)) {
                 throw new BizException("该用户未授权");
@@ -176,5 +184,7 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         }
         return routerVOList;
     }
+
+
 }
 

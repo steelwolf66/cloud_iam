@@ -74,6 +74,7 @@ public class Module extends BaseEntity<Module> {
 
     /**
      * 菜单图标【预留字段】
+     * 存储图标key，前端进行渲染
      */
     @TableField("icon")
     private String icon;

@@ -103,15 +103,22 @@ public class ModuleController {
     }
 
     /**
-     * route for 前端
+     * router for 前端
      * 通过当前用户id查询
      *
      * @return Result<List < Module>>
      */
-    @GetMapping("/route")
+    @GetMapping("/router")
     public Result<List<RouterVO>> routeTree() {
         String userId = WebUtils.getUserId();
         List<RouterVO> routerVOList = moduleService.loadRouterByUserId(userId, true);
         return Result.success(routerVOList);
+    }
+
+    @GetMapping("/test")
+    public Result<List<Module>> test() {
+        String userId = WebUtils.getUserId();
+        List<Module> modulsByUserId = moduleService.getModulsByUserId(userId);
+        return Result.success(modulsByUserId);
     }
 }
