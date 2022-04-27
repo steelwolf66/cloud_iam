@@ -141,13 +141,13 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     @Override
     public List<Module> loadModuleEntityListByUserId(String userId, boolean isTree, boolean withMeta) {
         //todo 一个SQL来完成,加载用户关联菜单实体
-        QueryWrapper<Module> moduleQueryWrapper = this.queryWrapperByUserId(userId);
+        QueryWrapper<Module> moduleQueryWrapper = this.buildQueryWrapperByUserId(userId);
         //通过模块id查询实体
         List<Module> treeModules = this.list(moduleQueryWrapper, isTree, withMeta);
         return treeModules;
     }
 
-    public QueryWrapper<Module> queryWrapperByUserId(String userId) {
+    public QueryWrapper<Module> buildQueryWrapperByUserId(String userId) {
         QueryWrapper<Module> moduleQueryWrapper = new QueryWrapper<>();
         //非admin ,查询关联菜单
         if (!AdminConstant.USER_ID_ADMIN.equalsIgnoreCase(userId)) {
